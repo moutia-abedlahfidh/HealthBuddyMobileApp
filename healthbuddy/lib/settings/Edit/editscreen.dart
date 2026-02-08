@@ -1,7 +1,3 @@
-// --- 2. Einstellungsseite (SettingsScreen) ---
-
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:healthbuddy/settings/Edit/editcontroller.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +22,7 @@ class _DataEditScreenState extends State<DataEditScreen> {
       return Scaffold(
       appBar: AppBar(
         title: const Text("Daten bearbeiten"),
-        backgroundColor: Color.fromARGB(255, 242, 242, 242),
+        backgroundColor: const Color.fromARGB(255, 242, 242, 242),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
@@ -96,9 +92,7 @@ class _DataEditScreenState extends State<DataEditScreen> {
             Center(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Daten wurden gespeichert!')),
-                  );
+                  controller.changeParameter(context);
                 },
                 icon: const Icon(Icons.save),
                 label: const Text("Daten speichern"),
