@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:healthbuddy/home/homescreen.dart';
-import 'package:healthbuddy/planning/calendar_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'body.dart';
 

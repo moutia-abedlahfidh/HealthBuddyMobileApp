@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:healthbuddy/empfohleneEssen/empfohlenecontroller.dart';
-import 'package:healthbuddy/graphik/graphikscreen.dart';
 import 'package:healthbuddy/home/homecontroller.dart';
 import 'package:healthbuddy/kalorienaufnahmen/kalorien_screen.dart';
 import 'package:healthbuddy/chatbot/chatbot_screen.dart';
@@ -84,7 +82,7 @@ Padding(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             offset: Offset(0, 4),
@@ -92,9 +90,9 @@ Padding(
           ),
         ],
       ),
-      child: Row(
+      child: const  Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Icon(Icons.smart_toy, color: Colors.white),
           SizedBox(width: 5),
           Text(
@@ -313,7 +311,7 @@ Padding(
                       title: "Empfohlene Ernährung",
                       image: "assests/ernahrung.jpg",
                       color: Colors.greenAccent.shade100,
-                      page : AIProgressPage()
+                      page : const AIProgressPage()
                     ),
                     _FeatureCard(
                       title: "Schlaf",
@@ -386,17 +384,17 @@ Padding(
             if (index==3) {
               Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  SettingsScreen()),
+          MaterialPageRoute(builder: (context) =>  const SettingsScreen()),
         );
             }else if (index == 1) {
               Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  CalendarPage()),
+          MaterialPageRoute(builder: (context) =>  const CalendarPage()),
         );
               }else if (index==2) {
               Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ChatPage()),
+          MaterialPageRoute(builder: (context) => const ChatPage()),
         );
             }else  {
 
@@ -415,8 +413,8 @@ Padding(
     },),);
   }
   Widget kmWidget(int steps) {
-  final km = (steps * 0.0008); // ~ 1 Schritt = 0.8 Meter
-  final kmGoal = 8.0; // z.B. Tagesziel 8 km
+  final km = (steps * 0.0008);
+  const kmGoal = 8.0; 
   final progress = (km / kmGoal).clamp(0.0, 1.0);
 
   return Container(
@@ -509,7 +507,7 @@ Padding(
   );}
 Widget kalorienWidget(int steps) {
   final kcal = steps * 0.045;
-  final kcalGoal = 300.0;
+  const kcalGoal = 300.0;
   final progress = (kcal / kcalGoal).clamp(0.0, 1.0);
 
   return Container(

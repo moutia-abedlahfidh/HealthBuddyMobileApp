@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healthbuddy/chatbot/chatbot_controller.dart';
-import 'package:healthbuddy/graphik/graphikscreen.dart';
-import 'package:healthbuddy/home/homescreen.dart'; 
+import 'package:healthbuddy/home/homescreen.dart';
+import 'package:healthbuddy/planning/calendar_page.dart'; 
 import 'package:healthbuddy/settings/settings_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -163,7 +163,7 @@ class ChatPage extends StatelessWidget {
             }else if (index == 1) {
               Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  GrafikScreen()),
+          MaterialPageRoute(builder: (context) =>  const CalendarPage()),
         );
               }else if (index==0) {
               Navigator.push(
@@ -177,7 +177,7 @@ class ChatPage extends StatelessWidget {
           showUnselectedLabels: false,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Statistik'),
+            BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Plannung'),
             BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'ChatBot'),
             BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Einstellungen'),
           ],

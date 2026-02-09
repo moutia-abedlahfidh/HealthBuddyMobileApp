@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:healthbuddy/planning/calender_controller.dart';
 import 'package:provider/provider.dart';
-import 'task_model.dart';
-import 'task_provider.dart';
 
 class TaskFormPage extends StatefulWidget {
   final DateTime selectedDate;
@@ -40,7 +39,7 @@ class _TaskFormPageState extends State<TaskFormPage> {
 
             ElevatedButton(
               onPressed: () {
-                context.read<TaskProvider>().addTask(
+                context.read<CalenderController>().addTask(
                       Taskzuprovider(
                         title: title.text,
                         date: widget.selectedDate,

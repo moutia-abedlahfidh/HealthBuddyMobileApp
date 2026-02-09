@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:healthbuddy/chatbot/chatbot_screen.dart';
-import 'package:healthbuddy/graphik/graphikscreen.dart';
 import 'package:healthbuddy/home/homescreen.dart';
+import 'package:healthbuddy/planning/calender_controller.dart';
 import 'package:healthbuddy/settings/settings_screen.dart';
 import 'package:provider/provider.dart';
-import 'task_provider.dart';
-import 'task_form_page.dart';
 
 class CalendarPage extends StatelessWidget {
   const CalendarPage({super.key});
@@ -13,46 +12,9 @@ class CalendarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => TaskProvider(),
-      child: const _CalendarView(),
-    );
-  }
-}
-
-class _CalendarView extends StatefulWidget {
-  const _CalendarView();
-
-  @override
-  State<_CalendarView> createState() => _CalendarViewState();
-}
-
-class _CalendarViewState extends State<_CalendarView> {
-  DateTime currentMonth = DateTime.now();
-
-  void nextMonth() {
-    setState(() {
-      currentMonth = DateTime(
-        currentMonth.year,
-        currentMonth.month + 1,
-      );
-    });
-  }
-
-  void previousMonth() {
-    setState(() {
-      currentMonth = DateTime(
-        currentMonth.year,
-        currentMonth.month - 1,
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final daysInMonth =
-        DateUtils.getDaysInMonth(currentMonth.year, currentMonth.month);
-
-    return Scaffold(
+      create: (_) => CalenderController(),
+      child: Consumer<CalenderController> (builder: (context, controller, child) {
+        return  Scaffold(
       appBar: AppBar(title: const Text("Planning Calendar")),
       body: SingleChildScrollView(
           child: Column(
@@ -64,18 +26,18 @@ class _CalendarViewState extends State<_CalendarView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: previousMonth,
+                  onPressed: controller.previousMonth,
                   icon: const Icon(Icons.chevron_left),
                 ),
 
                 Text(
-                  "${currentMonth.month}/${currentMonth.year}",
+                  "${controller.currentMonth.month}/${controller.currentMonth.year}",
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
 
                 IconButton(
-                  onPressed: nextMonth,
+                  onPressed: controller.nextMonth,
                   icon: const Icon(Icons.chevron_right),
                 ),
               ],
@@ -91,15 +53,15 @@ class _CalendarViewState extends State<_CalendarView> {
                 crossAxisCount: 7,
                 childAspectRatio: 1,
               ),
-              itemCount: daysInMonth,
+              itemCount: controller.daysInMonth,
               itemBuilder: (_, index) {
                 final date = DateTime(
-                  currentMonth.year,
-                  currentMonth.month,
+                  controller.currentMonth.year,
+                  controller.currentMonth.month,
                   index + 1,
                 );
 
-                final provider = context.watch<TaskProvider>();
+                final provider = context.watch<CalenderController>();
 final occupied = provider.hasTask(date);
 
 return GestureDetector(
@@ -134,7 +96,7 @@ return GestureDetector(
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
 
             Text(
               "Planned Tasks",
@@ -147,10 +109,16 @@ return GestureDetector(
             SizedBox(height: 10),
 
             /// Static Tasks
-            TaskTile("Gym Workout", "12 Feb"),
+            /// 
+            
+            /*TaskTile("Gym Workout", "12 Feb"),
             TaskTile("Study Flutter", "14 Feb"),
             TaskTile("Grocery Shopping", "18 Feb"),
-            TaskTile("Project Meeting", "22 Feb"),
+            TaskTile("Project Meeting", "22 Feb"),*/
+            SizedBox(height:300,child: ListView.builder(itemBuilder: (_, index) {
+              return TaskTile((controller.tasks[index]).title,controller.getDate(controller.tasks[index])) ;
+            },
+            itemCount: controller.tasks.length,))
           ],
         ),
       ),
@@ -174,17 +142,17 @@ return GestureDetector(
             if (index==3) {
               Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  SettingsScreen()),
+          MaterialPageRoute(builder: (context) =>  const SettingsScreen()),
         );
             }else if (index == 2) {
               Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  ChatPage()),
+          MaterialPageRoute(builder: (context) =>  const ChatPage()),
         );
               }else if (index==0) {
               Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Homescreen()),
+          MaterialPageRoute(builder: (context) => const Homescreen()),
         );
             }else  {
 
@@ -193,15 +161,19 @@ return GestureDetector(
           showUnselectedLabels: false,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Statistik'),
             BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Plannung'),
+            BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'ChatBot'),
             BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Einstellungen'),
           ],
         ),
       )
       );
+      },),
+    );
   }
 }
+
+
 void _showTaskPopup(BuildContext context, DateTime date) {
   final controller = TextEditingController();
 
@@ -229,7 +201,7 @@ void _showTaskPopup(BuildContext context, DateTime date) {
             child: const Text("Save"),
             onPressed: () {
               if (controller.text.isNotEmpty) {
-                context.read<TaskProvider>().addTask(
+                context.read<CalenderController>().addTask(
                       Taskzuprovider(title: controller.text, date: date),
                     );
               }

@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:healthbuddy/chatbot/chatbot_screen.dart';
-import 'package:healthbuddy/graphik/graphikscreen.dart';
 import 'package:healthbuddy/home/homescreen.dart';
 import 'package:healthbuddy/body.dart';
 import 'package:healthbuddy/notifications/notificationscreen.dart';
+import 'package:healthbuddy/planning/calendar_page.dart';
 import 'package:healthbuddy/privatheit/privatheitscreen.dart';
 import 'package:healthbuddy/settings/Edit/editscreen.dart';
 import 'package:provider/provider.dart';
@@ -28,12 +28,12 @@ class SettingsScreen extends StatelessWidget {
         height: double.infinity,
         
         child: SingleChildScrollView(
-          child: Padding(padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+          child: Padding(padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 30,),
-              Text(
+              const SizedBox(height: 30,),
+              const Text(
                   "Settings ",
                   textAlign:TextAlign.center,
                   style: TextStyle(
@@ -42,26 +42,26 @@ class SettingsScreen extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                SizedBox(height: 30,),
-                ItemSetting(icon: Icon(Icons.person),name: "Account",description: "Change parameters", onTap: () {
+                const SizedBox(height: 30,),
+                ItemSetting(icon: const Icon(Icons.person),name: "Account",description: "Change parameters", onTap: () {
                   Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const DataEditScreen()),
         );
                 },),
-                ItemSetting(icon: Icon(Icons.notifications),name: "Benachrichtung",description: "Neuigkeiten sehen...",onTap: () {
+                ItemSetting(icon: const Icon(Icons.notifications),name: "Benachrichtung",description: "Neuigkeiten sehen...",onTap: () {
                   Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const NotificationScreen()),
         );
                 },),
-                ItemSetting(icon: Icon(Icons.privacy_tip),name: "Privatheit",description: "mehr Lesen",onTap: () {
+                ItemSetting(icon: const Icon(Icons.privacy_tip),name: "Privatheit",description: "mehr Lesen",onTap: () {
                   Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
         );
                 }),
-                ItemSetting(icon: Icon(Icons.logout),name: "Ausloggen",description: "Bis nachste mal",onTap: () {
+                ItemSetting(icon: const Icon(Icons.logout),name: "Ausloggen",description: "Bis nachste mal",onTap: () {
                   controller.ausloggen(context) ;
                 }),
             ],
@@ -93,7 +93,7 @@ class SettingsScreen extends StatelessWidget {
               }else if (index==1) {
               Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => GrafikScreen()),
+          MaterialPageRoute(builder: (context) =>  const CalendarPage()),
         );
             }else  {
 
@@ -102,7 +102,7 @@ class SettingsScreen extends StatelessWidget {
           showUnselectedLabels: false,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Statistik'),
+            BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Plannung'),
             BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'ChatBot'),
             BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Einstellungen'),
           ],
