@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:healthbuddy/kalorienaufnahmen/kalorien_controller.dart';
+import 'package:provider/provider.dart';
 
 class ProduktDetailScreen extends StatelessWidget {
   final String name;
@@ -14,7 +16,9 @@ class ProduktDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ChangeNotifierProvider(create: (_)=> KalorienController(),
+    child: Consumer<KalorienController>(builder: (context, controller, child) {
+      return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -155,14 +159,7 @@ class ProduktDetailScreen extends StatelessWidget {
                 // "Wählen" Button
                 ElevatedButton.icon(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("$name wurde gewählt ✅"),
-                        backgroundColor: Colors.teal,
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
-                    Navigator.pop(context);
+                    controller.addProdukt(context,name,image);
                   },
                   icon: const Icon(Icons.check_circle_outline, size: 24),
                   label: const Text(
@@ -191,7 +188,7 @@ class ProduktDetailScreen extends StatelessWidget {
         ),
       ),
     );
-  }
+    },),);}
 }
 
 // 📊 Small nutrient box widget
@@ -225,3 +222,4 @@ class _NutrientBox extends StatelessWidget {
     );
   }
 }
+

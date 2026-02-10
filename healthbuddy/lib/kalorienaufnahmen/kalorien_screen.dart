@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthbuddy/home/homescreen.dart';
 import 'package:healthbuddy/kalorienaufnahmen/kalorien_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,8 @@ class KalorienScreen extends StatelessWidget {
     //final controller = Provider.of<KalorienController>(context);
     return ChangeNotifierProvider(
       create: (_) => KalorienController(),
-      child: Scaffold(
+      child: Consumer<KalorienController>(builder: (context, controller, child) {
+        return Scaffold(
         extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
@@ -61,14 +63,18 @@ class KalorienScreen extends StatelessWidget {
             ),
             child: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new, color: Colors.teal),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Homescreen(),
+          ),
+        ),
             ),
           ),
         ),
       ),
 
         body: Builder(builder: (context)  {
-          final controller = Provider.of<KalorienController>(context);
           return Container(
           padding: const EdgeInsets.all(10),
         width: double.infinity,
@@ -83,15 +89,13 @@ class KalorienScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 80,),
-            Consumer<KalorienController>(
-        builder: (context, controller, _) => SearchBar(
+            SearchBar(
           leading: const Icon(Icons.search),
           hintText: "Such Kalorien deines Artikels",
           onChanged: (value) {
             controller.searchFood(value);
           },
         ),
-      ),
       controller.foods.isNotEmpty ? Expanded(
   child: Consumer<KalorienController>(
     builder: (context, controller, _) {
@@ -111,7 +115,6 @@ class KalorienScreen extends StatelessWidget {
         );
       }
 
-      // ✅ Case 2: no results yet → empty box or your default UI
       return const SizedBox(); // or a loading, or your static grid
     },
   ),
@@ -163,13 +166,13 @@ class KalorienScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = controller.selectedFoods[index];
                 return ListTile(
-                  leading: Image.asset(item['image'], width: 40, height: 40),
-                  title: Text(item['title']),
-                  subtitle: Text(item['kalorien']),
+                  leading: Image.asset(item.image, width: 40, height: 40),
+                  title: Text(item.name),
+                  subtitle: Text("120"),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
                     onPressed: () {
-                      controller.toggleSelection(item);
+                      controller.toggleSelection(item,context);
                     },
                   ),
                 );
@@ -181,8 +184,7 @@ class KalorienScreen extends StatelessWidget {
     },
   ),
 ),
-      ),
-    ) ;
+      );     },)) ;
   }
 }
 
@@ -264,6 +266,99 @@ class KardEssen extends StatelessWidget {
         ],
       ),
     ),
+    );
+  }
+}
+
+class Product {
+  final int id;
+  final String name;
+  final String image;
+
+  Product({required this.id, required this.name, required this.image});
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'image': image,
+      };
+
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+        id: json['id'],
+        name: json['name'],
+        image: json['image'],
+      );
+}
+
+class ProductsPopup extends StatelessWidget {
+  final List<Product> products;
+  final Function(int id) onDelete;
+
+  const ProductsPopup({
+    super.key,
+    required this.products,
+    required this.onDelete,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      height: 400,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+
+      child: Column(
+        children: [
+
+          /// Title
+          const Text(
+            "Products",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          /// Product List
+          Expanded(
+            child: ListView.builder(
+              itemCount: products.length,
+              itemBuilder: (_, index) {
+                final product = products[index];
+
+                return Card(
+                  elevation: 2,
+                  margin: const EdgeInsets.symmetric(vertical: 6),
+
+                  child: ListTile(
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(
+                        product.image,
+                        width: 50,
+                        height: 50,
+                        //fit: BoxFit.cover,
+                      ),
+                    ),
+
+                    title: Text(product.name),
+
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      onPressed: () => onDelete(product.id),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
