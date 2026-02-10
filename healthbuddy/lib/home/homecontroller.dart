@@ -36,7 +36,7 @@ int totalSteps = 0;
 
   void _init() async {
   _initPedometer();
-  scheduleDailyUpload();
+  //scheduleDailyUpload();
   final prefs = await SharedPreferences.getInstance();
   String? uid = prefs.getString('uid') ;
   _currentuser = await service.getUser(); 
@@ -49,7 +49,7 @@ int totalSteps = 0;
 
 }
 
- Future<void> scheduleDailyUpload() async{
+ /*Future<void> scheduleDailyUpload() async{
   final now = DateTime.now();
   final tomorrow = DateTime(now.year, now.month, now.day + 1);
   final durationUntilMidnight = tomorrow.difference(now);
@@ -61,7 +61,7 @@ int totalSteps = 0;
     // Timer erneut planen für nächsten Tag
     scheduleDailyUpload();
   });
-}
+}*/
 
 Future<void> sendNotificationSchritte() async {
   final now = DateTime.now();
@@ -73,7 +73,7 @@ Future<void> sendNotificationKalorien() async {
   await service.uploadNotificationKalorien(now) ;
 }
 
-Future<void> sendNotificationMotivation() async {
+/*Future<void> sendNotificationMotivation() async {
   final now = DateTime.now();
   await service.uploadNotificationMotivation(now) ;
 }
@@ -81,7 +81,7 @@ Future<void> sendNotificationMotivation() async {
 Future<void> sendNotificationWasseraufnahme() async {
   final now = DateTime.now();
   await service.uploadNotificationWasser(now) ;
-}
+}*/
 
 
 
@@ -205,4 +205,8 @@ DateTime parseDate(String dateString) {
       todayKM = thisweek.fold(0.0, (sum, d) => sum + d.km);
       notifyListeners();
 }
+
+
+
+
 }

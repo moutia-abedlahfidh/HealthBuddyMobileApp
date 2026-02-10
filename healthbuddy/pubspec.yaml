@@ -17,6 +17,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.2.2
+  internet_connection_checker: ^1.0.0+1
   pedometer: ^4.1.1
   permission_handler: ^11.3.1
   provider: ^6.1.5+1

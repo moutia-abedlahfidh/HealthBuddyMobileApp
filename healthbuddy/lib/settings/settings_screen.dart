@@ -9,7 +9,6 @@ import 'package:healthbuddy/planning/calendar_page.dart';
 import 'package:healthbuddy/privatheit/privatheitscreen.dart';
 import 'package:healthbuddy/settings/Edit/editscreen.dart';
 import 'package:provider/provider.dart';
-
 import 'settings_controller.dart';
 
 class SettingsScreen extends StatelessWidget {
