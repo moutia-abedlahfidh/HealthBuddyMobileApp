@@ -67,10 +67,7 @@ class KalorienController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// 🔹 Initial connection test (optional)
-  //Future<void> connect() async {
-  //  await searchFood("monster"); // test call
-  //}
+  
     void toggleSelection(dynamic food,BuildContext context) async{
       final prefs = await SharedPreferences.getInstance();
     if (selectedFoods.contains(food)) {

@@ -69,7 +69,7 @@ return GestureDetector(
   child: Card(
     elevation: occupied ? 6 : 2,
     color: occupied
-        ? Colors.green.shade300   // ⭐ occupied color
+        ? Colors.green.shade300
         : Colors.white,
     child: Center(
       child: Text(
@@ -98,7 +98,7 @@ return GestureDetector(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            Text(
+            const Text(
               "Planned Tasks",
               style: TextStyle(
                 fontSize: 18,
@@ -106,15 +106,9 @@ return GestureDetector(
               ),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
-            /// Static Tasks
-            /// 
             
-            /*TaskTile("Gym Workout", "12 Feb"),
-            TaskTile("Study Flutter", "14 Feb"),
-            TaskTile("Grocery Shopping", "18 Feb"),
-            TaskTile("Project Meeting", "22 Feb"),*/
             SizedBox(height:300,child: ListView.builder(itemBuilder: (_, index) {
               return TaskTile((controller.tasks[index]).title,controller.getDate(controller.tasks[index])) ;
             },
@@ -222,6 +216,9 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final controller = context.read<CalenderController>();
+
     return Card(
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 6),
@@ -232,7 +229,12 @@ class TaskTile extends StatelessWidget {
         leading: const Icon(Icons.check_circle_outline),
         title: Text(title),
         subtitle: Text(date),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+        trailing: GestureDetector(
+          onTap: () {
+            controller.deleteTask(date, title);
+          },
+          child: const Icon(Icons.delete, color: Colors.red),
+        ),
       ),
     );
   }

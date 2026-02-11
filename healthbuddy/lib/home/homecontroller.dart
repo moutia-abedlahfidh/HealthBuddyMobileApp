@@ -46,7 +46,7 @@ int totalSteps = 0;
   loadSteps();
   isLoading = false ;
   notifyListeners(); 
-
+  await service.uploadDailySteps(DateTime.now() ,steps,kcal,km);
 }
 
  /*Future<void> scheduleDailyUpload() async{

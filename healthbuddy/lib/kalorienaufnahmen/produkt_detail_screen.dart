@@ -6,12 +6,14 @@ class ProduktDetailScreen extends StatelessWidget {
   final String name;
   final String kalorien;
   final String image;
+  final bool isSearch ;
 
   const ProduktDetailScreen({
     super.key,
     required this.name,
     required this.kalorien,
     required this.image,
+    required this.isSearch
   });
 
   @override
@@ -98,7 +100,7 @@ class ProduktDetailScreen extends StatelessWidget {
                 const SizedBox(height: 12),
 
                 // Calories info
-                Container(
+                isSearch==false ? Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: BoxDecoration(
@@ -113,9 +115,9 @@ class ProduktDetailScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
+                ) : Container(),
 
-                const SizedBox(height: 30),
+                SizedBox(height: isSearch==false ? 30 : 5),
 
                 // Nutrition info (example placeholder)
                 Container(
@@ -131,9 +133,9 @@ class ProduktDetailScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: const Column(
+                  child: Column(
                     children: [
-                      Text(
+                      const Text(
                         "Nährwertinformationen",
                         style: TextStyle(
                           color: Colors.black87,
@@ -141,15 +143,22 @@ class ProduktDetailScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Row(
+                      const SizedBox(height: 10),
+                      isSearch==false ? const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _NutrientBox(label: "Fett", value: "30 g"),
                           _NutrientBox(label: "Kohlenhydrate", value: "55 g"),
                           _NutrientBox(label: "Protein", value: "8 g"),
                         ],
-                      ),
+                      ) : Center(
+                      child: Text(
+                        kalorien,
+                        style: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 13,
+                        ),
+                      ),),
                     ],
                   ),
                 ),

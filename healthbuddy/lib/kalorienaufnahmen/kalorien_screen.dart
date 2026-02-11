@@ -104,18 +104,34 @@ class KalorienScreen extends StatelessWidget {
           itemCount: controller.foods.length,
           itemBuilder: (context, index) {
             final item = controller.foods[index];
-            return Card(
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProduktDetailScreen(
+              image: "assests/food_drink_logo.jpg",
+              name: item['food_name'], 
+              kalorien: item['food_description'],
+              isSearch: true,
+              ),
+          ),
+        );
+                
+              },
+              child: Card(
               child: ListTile(
                 leading: const Icon(Icons.fastfood, color: Colors.teal),
                 title: Text(item['food_name'] ?? ''),
                 subtitle: Text(item['food_description'] ?? ''),
               ),
+            ),
             );
           },
         );
       }
 
-      return const SizedBox(); // or a loading, or your static grid
+      return const SizedBox();
     },
   ),
 ) :
@@ -168,7 +184,6 @@ class KalorienScreen extends StatelessWidget {
                 return ListTile(
                   leading: Image.asset(item.image, width: 40, height: 40),
                   title: Text(item.name),
-                  subtitle: Text("120"),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
                     onPressed: () {
@@ -205,6 +220,7 @@ class KardEssen extends StatelessWidget {
               name: title,
               kalorien: kalorien,
               image: image,
+              isSearch: false,
             ),
           ),
         );

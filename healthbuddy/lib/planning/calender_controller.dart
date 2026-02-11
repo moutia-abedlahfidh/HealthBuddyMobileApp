@@ -59,8 +59,15 @@ class CalenderController extends ChangeNotifier {
     for (var item in dynamicList) {
       tasks.add(Taskzuprovider(title: item['event'], date: DateTime.parse(item['date']),));
     }
-    print(tasks);
     notifyListeners();
+  }
+
+  void deleteTask(String date,String event) async {
+
+    
+   tasks = await service.deleteTask(date,event);
+   notifyListeners();
+
   }
 }
 
